@@ -18,6 +18,7 @@ import net.aksingh.owmjapis.model.CurrentWeather;
 public class Main {
 
 	public static void main(String[] args) throws APIException{
+
 		Double lat = 47.585356;
 		Double lng =  1.332430;
 		
@@ -81,13 +82,13 @@ public class Main {
 			System.out.println(p.getDist() + "m\t  " + p.getService() + "   " + p.getPoi().getName());
 		}
 
-            // getting current weather data for the "London" city
-            CurrentWeather cwd = openWeatherMap.currentWeatherByCityName("Paris");
+            //obtention weather par les coordonnées
+            CurrentWeather cwd = openWeatherMap.currentWeatherByCoords(lat,lng);
 
-            //printing city name from the retrieved data
+            //recupère le nom de la "ville" définie par les coordonnées
             System.out.println("City: " + cwd.getCityName());
 
-            // printing the max./min. temperature
+            //recupère et affiche la temperature min et max
             System.out.println("Temperature: " + cwd.getMainData().getTempMax()
                     + "/" + cwd.getMainData().getTempMin() + "\'K");
 
