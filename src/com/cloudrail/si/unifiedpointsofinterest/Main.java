@@ -11,14 +11,19 @@ import com.cloudrail.si.services.GooglePlaces;
 import com.cloudrail.si.services.Yelp;
 import com.cloudrail.si.types.Location;
 import com.cloudrail.si.types.POI;
+import net.aksingh.owmjapis.api.APIException;
+import net.aksingh.owmjapis.core.OWM;
+import net.aksingh.owmjapis.model.CurrentWeather;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws APIException{
 		Double lat = 47.585356;
 		Double lng =  1.332430;
 		
 		CloudRail.setAppKey("5a72eb4aff0b7e2f2f9df104");
+
+
 		
 		Foursquare foursquare = new Foursquare(
 			    null,
@@ -29,6 +34,11 @@ public class Main {
 			    null,
 			    "AIzaSyA8im5TimfEE8Om95mtBaTTwMEZPnZOg5I"
 			);
+
+        OWM openWeatherMap = new OWM("f6f0e3ae36a5a2e736d4d4ec323c527c");
+
+
+
 		/*Yelp yelp = new Yelp(
 			    null,
 			    "vmDjbqkZWtI7FsXNImUmTq2i-6FSl6_qqWFwQUPFCJUYTq6hx-r0iHcsdT8iSP2sc7zt_KmpT4qYAqch6JRDCOR8AnzADXNCFAy2NItCeHc8p44cO-Ov8aKAc29zWnYx",
@@ -70,6 +80,17 @@ public class Main {
 		for (POIWrapper p : allPois) {
 			System.out.println(p.getDist() + "m\t  " + p.getService() + "   " + p.getPoi().getName());
 		}
+
+            // getting current weather data for the "London" city
+            CurrentWeather cwd = openWeatherMap.currentWeatherByCityName("Paris");
+
+            //printing city name from the retrieved data
+            System.out.println("City: " + cwd.getCityName());
+
+            // printing the max./min. temperature
+            System.out.println("Temperature: " + cwd.getMainData().getTempMax()
+                    + "/" + cwd.getMainData().getTempMin() + "\'K");
+
 	}
 
 	static int distFrom(double lat1, double lng1, double lat2, double lng2) {
