@@ -6,13 +6,13 @@ public class POIWrapper {
 	private POI poi;
 	private int dist;
 	private String service;
-	
+
 	public POIWrapper(POI p, int d, String s) {
 		poi = p;
 		dist = d;
 		service = s;
 	}
-	
+
 	public POI getPoi() {
 		return poi;
 	}

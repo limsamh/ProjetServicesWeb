@@ -21,7 +21,7 @@ public class Main {
 		Double lat = 47.585356;
 		Double lng =  1.332430;
 		
-		CloudRail.setAppKey("5a72eb4aff0b7e2f2f9df104");
+		CloudRail.setAppKey("5a73b811325f226137e3eb6f");
 
 
 		
@@ -59,8 +59,11 @@ public class Main {
 		//services.add(yelp);
 		
 		List<String> categories = new ArrayList<String>();
+
+		categories.add("restaurant");
+		categories.add("bus_station");
 		categories.add("police");
-		
+
 		List<POIWrapper> allPois = new ArrayList<POIWrapper>();
 
 		for (int i = 0; i < services.size(); i++) {
@@ -70,15 +73,16 @@ public class Main {
 				allPois.add(new POIWrapper(poi, distFrom(lat, lng, loc.getLatitude(), loc.getLongitude()), serviceNames.get(i)));
 			}
 		}
+
 		allPois.sort(new Comparator<POIWrapper>() {
 			@Override
 			public int compare(POIWrapper p1, POIWrapper p2) {
 				return p1.getDist() - p2.getDist();
 			}
 		});
-		
+
 		for (POIWrapper p : allPois) {
-			System.out.println(p.getDist() + "m\t  " + p.getService() + "   " + p.getPoi().getName());
+			System.out.println(p.getDist() + "m\t  " + p.getService() + "   " + p.getPoi().getName() + "	" + p.getPoi().getCategories());
 		}
 
             //obtention weather par les coordonnées
@@ -88,8 +92,10 @@ public class Main {
             System.out.println("City: " + cwd.getCityName());
 
             //recupère et affiche la temperature min et max
-            System.out.println("Temperature: " + cwd.getMainData().getTempMax()
+            System.out.println("Temperature: " + cwd.getMainData().getTempMin()
                     + "/" + cwd.getMainData().getTempMin() + "\'K");
+
+		System.out.println("cloud : " + cwd.getCloudData() + "\nHumidity :" + cwd.getMainData().getHumidity() + "\nPressure : " + cwd.getMainData().getPressure());
 
 	}
 
