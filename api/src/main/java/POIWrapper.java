@@ -1,4 +1,4 @@
-package com.cloudrail.si.unifiedpointsofinterest;
+package main.java;
 
 import com.cloudrail.si.types.POI;
 

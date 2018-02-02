@@ -2,6 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>UnifiedPointsOfinterest</groupId>
   <artifactId>UnifiedPointsOfinterest</artifactId>
+  <packaging>pom</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -16,22 +17,15 @@
       </plugin>
     </plugins>
   </build>
+  <modules>
+    <module>core</module>
+    <module>api</module>
+
+  </modules>
   <repositories>
     <repository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
   </repositories>
-  <dependencies>
-	<dependency>
-		<groupId>com.cloudrail</groupId>
-		<artifactId>cloudrail-si-java</artifactId>
-		<version>2.16.3</version>
-	</dependency>
-    <dependency>
-      <groupId>net.aksingh</groupId>
-      <artifactId>owm-japis</artifactId>
-      <version>2.5.2.0</version>
-    </dependency>
-</dependencies>
 </project>

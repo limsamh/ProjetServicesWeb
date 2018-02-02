@@ -1,4 +1,4 @@
-package com.cloudrail.si.unifiedpointsofinterest;
+package main.java;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,7 +8,6 @@ import com.cloudrail.si.CloudRail;
 import com.cloudrail.si.interfaces.PointsOfInterest;
 import com.cloudrail.si.services.Foursquare;
 import com.cloudrail.si.services.GooglePlaces;
-import com.cloudrail.si.services.Yelp;
 import com.cloudrail.si.types.Location;
 import com.cloudrail.si.types.POI;
 import net.aksingh.owmjapis.api.APIException;
