@@ -1,5 +1,3 @@
-
-
 block content
     head
         meta(name='viewport', content='initial-scale=1.0, user-scalable=no')
@@ -14,97 +12,114 @@ block content
             #pic
 
 
+input#pac-input.controls(type='text', placeholder='Search Box')
 
-        input#pac-input.controls(type='text', placeholder='Search Box')
+#map
+script.
+    function initAutocomplete() {
 
-        #map
-        script.
-            function initAutocomplete() {
+        infowindow = new google.maps.InfoWindow();
 
-                infowindow = new google.maps.InfoWindow();
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 47.56453, lng: 1.33456},
+            zoom: 13,
+            mapTypeId: 'roadmap'
+        });
 
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: {lat: 47.56453, lng: 1.33456},
-                    zoom: 13,
-                    mapTypeId: 'roadmap'
-                });
-                // Create the search box and link it to the UI element.
-                var input = document.getElementById('pac-input');
-                var searchBox = new google.maps.places.SearchBox(input);
-                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-                // Bias the SearchBox results towards current map's viewport.
-                map.addListener('bounds_changed', function() {
-                    searchBox.setBounds(map.getBounds());
-                });
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
 
-                var markers = [];
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function () {
+            searchBox.setBounds(map.getBounds());
+        });
 
-                console.log(markers + 'first');
+        var markers = [];
 
-                // Listen for the event fired when the user selects a prediction and retrieve
-                // more details for that place.
-                searchBox.addListener('places_changed', function() {
-                    var places = searchBox.getPlaces();
-                    var marker;
+        console.log(markers + 'first');
 
-                    alert(JSON.stringify(places))
-                    console.log(places)
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function () {
+            var places = searchBox.getPlaces();
+            var marker;
 
-                    if (places.length == 0) {
-                        return;
-                    }
-                    // Clear out the old markers.
-                    markers.forEach(function(marker) {
-                        console.log(marker + 'reinitialisation')
-                        marker.setMap(null);
-                    });
-                    markers = [];
+            alert(JSON.stringify(places))
+            console.log(places)
 
-                    console.log(markers + 'sec');
-
-                    // For each place, get the icon, name and location.
-                    var bounds = new google.maps.LatLngBounds();
-                    places.forEach(function(place) {
-                        if (!place.geometry) {
-                            console.log("Returned place contains no geometry");
-                            return;
-                        }
-
-                        console.log(markers + 'third');
-
-                        var icon = {
-                            url: place.icon,
-                            size: new google.maps.Size(71, 71),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(25, 25)
-                        };
-
-                        // Create a marker for each place.
-                        marker = new google.maps.Marker({
-                            map: map,
-                            icon: icon,
-                            title: place.name +
-                                '\n' + place.formatted_address
-                                /*'\n  img(src=\'' + place.icon + '\')' +
-                                '\n tel : ' + place.formatted_phone_number +
-                                '\n note : ' + place.rating +
-                                '\n ouvert : ' + place.opening_hours*/,
-                            position: place.geometry.location,
-                            id: place.id
-                        });
-
-                        markers.push(marker);
-
-                        if (place.geometry.viewport) {
-                            // Only geocodes have viewport.
-                            bounds.union(place.geometry.viewport);
-                        } else {
-                            bounds.extend(place.geometry.location);
-                        }
-                    });
-
-                    map.fitBounds(bounds);
-                });
+            if (places.length == 0) {
+                return;
             }
-        script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBF9y6_whjHe2QDpkZXDxz29_zV3F7MBX0&libraries=places&callback=initAutocomplete', async='', defer='')
+            // Clear out the old markers.
+            markers.forEach(function (marker) {
+                console.log(marker + 'reinitialisation')
+                marker.setMap(null);
+            });
+            markers = [];
+
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+
+                // Create a marker for each place.
+                marker = new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name +
+                    '\n' + place.formatted_address,
+                    position: place.geometry.location,
+                    id: place.id
+                });
+
+                marker.addListener('click', function () {
+                    var nom = place.name;
+                    var adresse = place.formatted_address;
+                    var tel = place.formatted_phone_number;
+                    var note = place.rating;
+
+                    alert(JSON.stringify(place))
+                    infowindow.setContent([
+                        nom,
+                        adresse,
+                        'tel : ' + tel,
+                        'note : ' + note].join("<br />"));
+
+                    infowindow.setOptions({
+                        position: place.geometry.location,
+                        pixelOffset: {
+                            width: 0,
+                            height: -15
+                        }
+                    });
+                    infowindow.open(map, this);
+                })
+
+                markers.push(marker);
+
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
+            });
+
+            map.fitBounds(bounds);
+        });
+    }
+script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBF9y6_whjHe2QDpkZXDxz29_zV3F7MBX0&libraries=places&callback=initAutocomplete', async='', defer='')
