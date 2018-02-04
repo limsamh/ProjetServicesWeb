@@ -1,6 +1,6 @@
+/* Always set the map height explicitly to define the size of the div
+                   * element that contains the map. */
 body {
-  padding: 50px;
-  height: 100%;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -8,123 +8,8 @@ a {
   color: #00B7FF;
 }
 
-nav.sidebar, .main{
-  -webkit-transition: margin 200ms ease-out;
-  -moz-transition: margin 200ms ease-out;
-  -o-transition: margin 200ms ease-out;
-  transition: margin 200ms ease-out;
-}
-
-.main{
-  padding: 10px 10px 0 10px;
-}
-
-@media (min-width: 765px) {
-
-  .main{
-    position: absolute;
-    width: calc(100% - 40px);
-    margin-left: 40px;
-    float: right;
-  }
-
-  nav.sidebar:hover + .main{
-    margin-left: 200px;
-  }
-
-  nav.sidebar.navbar.sidebar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-    margin-left: 0px;
-  }
-
-  nav.sidebar .navbar-brand, nav.sidebar .navbar-header{
-    text-align: center;
-    width: 100%;
-    margin-left: 0px;
-  }
-
-  nav.sidebar a{
-    padding-right: 13px;
-  }
-
-  nav.sidebar .navbar-nav > li:first-child{
-    border-top: 1px #e5e5e5 solid;
-  }
-
-  nav.sidebar .navbar-nav > li{
-    border-bottom: 1px #e5e5e5 solid;
-  }
-
-  nav.sidebar .navbar-nav .open .dropdown-menu {
-    position: static;
-    float: none;
-    width: auto;
-    margin-top: 0;
-    background-color: transparent;
-    border: 0;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  nav.sidebar .navbar-collapse, nav.sidebar .container-fluid{
-    padding: 0 0px 0 0px;
-  }
-
-  .navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
-    color: #777;
-  }
-
-  nav.sidebar{
-    width: 200px;
-    height: 100%;
-    margin-left: -160px;
-    float: left;
-    margin-bottom: 0px;
-  }
-
-  nav.sidebar li {
-    width: 100%;
-  }
-
-  nav.sidebar:hover{
-    margin-left: 0px;
-  }
-
-  .forAnimate{
-    opacity: 0;
-  }
-}
-
-@media (min-width: 1330px) {
-
-  .main{
-    width: calc(100% - 200px);
-    margin-left: 200px;
-  }
-
-  nav.sidebar{
-    margin-left: 0px;
-    float: left;
-  }
-
-  nav.sidebar .forAnimate{
-    opacity: 1;
-  }
-}
-
-nav.sidebar .navbar-nav .open .dropdown-menu>li>a:hover, nav.sidebar .navbar-nav .open .dropdown-menu>li>a:focus {
-  color: #CCC;
-  background-color: transparent;
-}
-
-nav:hover .forAnimate{
-  opacity: 1;
-}
-section{
-  padding-left: 15px;
-}
-
 #map {
-  height: 500px;
+  height: 100%;
   width: 100%;
   background-color: grey;
 }
@@ -164,7 +49,7 @@ section{
 }
 
 .sidenav:focus .onclick-menu-content {
-    display: inline-list-item;
+  display: inline-list-item;
 }
 
 @media screen and (max-height: 450px) {
@@ -175,10 +60,56 @@ section{
   .sidenav a {
     font-size: 18px;
   }
+
   .sidenav li {
     font-size: 18px;
   }
 }
 
+/* Optional: Makes the sample page fill the window. */
 
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
 
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#target {
+  width: 345px;
+}
