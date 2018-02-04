@@ -12,4 +12,8 @@ router.get('/POI', function(req, res, next) {
                         data: vd});
 });
 
+router.get('/test', function(req, res, next) {
+    res.render('test', { title: 'test' });
+});
+
 module.exports = router;

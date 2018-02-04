@@ -1,174 +1,125 @@
-extends layout
-
-block content
+html
     head
-        title Simple Map
-        meta(name='viewport', content='initial-scale=1.0')
+        meta(name='viewport', content='initial-scale=1.0, user-scalable=no')
         meta(charset='utf-8')
-
-        script(type='text/javascript', src='/javascripts/under_menu_display.js')
-        script(type='text/javascript', src='/javascripts/api.js')
-
+        title Places Searchbox
         style.
             /* Always set the map height explicitly to define the size of the div
             * element that contains the map. */
-            body {
-                font-family: "Lato", sans-serif;
+            #map {
+                height: 100%;
             }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            .controls {
+                margin-top: 10px;
+                border: 1px solid transparent;
+                border-radius: 2px 0 0 2px;
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                height: 32px;
+                outline: none;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+            #pac-input {
+                background-color: #fff;
+                font-family: Roboto;
+                font-size: 15px;
+                font-weight: 300;
+                margin-left: 12px;
+                padding: 0 11px 0 13px;
+                text-overflow: ellipsis;
+                width: 300px;
+            }
+            #pac-input:focus {
+                border-color: #4d90fe;
+            }
+            .pac-container {
+                font-family: Roboto;
+            }
+            #type-selector {
+                color: #fff;
+                background-color: #4d90fe;
+                padding: 5px 11px 0px 11px;
+            }
+            #type-selector label {
+                font-family: Roboto;
+                font-size: 13px;
+                font-weight: 300;
+            }
+            #target {
+                width: 345px;
+            }
+    body
+        input#pac-input.controls(type='text', placeholder='Search Box')
+        #map
+        script.
+            function initAutocomplete() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 47.56453, lng: 1.33456},
+                    zoom: 13,
+                    mapTypeId: 'roadmap'
+                });
+                // Create the search box and link it to the UI element.
+                var input = document.getElementById('pac-input');
+                var searchBox = new google.maps.places.SearchBox(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                // Bias the SearchBox results towards current map's viewport.
+                map.addListener('bounds_changed', function() {
+                    searchBox.setBounds(map.getBounds());
+                });
 
-        body
-            #mySidenav.sidenav
-                a.closebtn(href='javascript:void(0)', onclick='closeNav()') ×
-                #menu
-                    form(name='poi_list')
-                        input(type='radio', name='poi', value='bar')
-                        | bar
-                        br
-                        input(type='radio', name='poi', value='restaurant')
-                        | restaurant
-                        br
-                        input(type='radio', name='poi', value='bowling_alley')
-                        | bowling_alley
-                        br
-                        input(type='radio', name='poi', value='amusement_park')
-                        | amusement_park
-                        br
-                        input(type='radio', name='poi', value='aquarium')
-                        | aquarium
-                        br
-                        input(type='radio', name='poi', value='park')
-                        | park
-                        br
-                        input(type='radio', name='poi', value='stadium')
-                        | stadium
-                        br
-                        input(type='radio', name='poi', value='zoo')
-                        | zoo
-                        br
-                        input(type='radio', name='poi', value='art_gallery')
-                        | art_gallery
-                        br
-                        input(type='radio', name='poi', value='church')
-                        | church
-                        br
+                var markers = [];
 
+                // Listen for the event fired when the user selects a prediction and retrieve
+                // more details for that place.
+                searchBox.addListener('places_changed', function() {
+                    var places = searchBox.getPlaces();
 
-                br
-                input(type='text', value='', id='text_id')
+                    alert(JSON.stringify(places))
 
-                br
-                button(onclick='maj()') click
-
-            span(style='font-size:30px;cursor:pointer', onclick='openNav()') ☰ Params
-
-            #map
-                script(async = '', defer = '', src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBF9y6_whjHe2QDpkZXDxz29_zV3F7MBX0&libraries=places&callback=mapParam')
-                script(src='https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js')
-
-            script.
-                var selection = document.poi_list.poi;
-                var radio_value
-
-                function maj() {
-
-
-
-                    for (i = 0; i < selection.length; i++) {
-                        if (selection[i].checked === true)
-                            radio_value = selection[i].value
+                    if (places.length == 0) {
+                        return;
                     }
-                    window.location.href = 'http://localhost:3000/POI?param=' + document.getElementById("text_id").value + '&param=' + radio_value;
-                };
+                    // Clear out the old markers.
+                    markers.forEach(function(marker) {
+                        marker.setMap(null);
+                    });
+                    markers = [];
+                    // For each place, get the icon, name and location.
+                    var bounds = new google.maps.LatLngBounds();
+                    places.forEach(function(place) {
+                        if (!place.geometry) {
+                            console.log("Returned place contains no geometry");
+                            return;
+                        }
+                        var icon = {
+                            url: place.icon,
+                            size: new google.maps.Size(71, 71),
+                            origin: new google.maps.Point(0, 0),
+                            anchor: new google.maps.Point(17, 34),
+                            scaledSize: new google.maps.Size(25, 25)
+                        };
+                        // Create a marker for each place.
+                        markers.push(new google.maps.Marker({
+                            map: map,
+                            icon: icon,
+                            title: place.name,
+                            position: place.geometry.location
+                        }));
+                        if (place.geometry.viewport) {
+                            // Only geocodes have viewport.
+                            bounds.union(place.geometry.viewport);
+                        } else {
+                            bounds.extend(place.geometry.location);
+                        }
+                    });
 
-
-
-     //var list = new Array(accounting,
-                airport,
-                amusement_park,
-                aquarium,
-                art_gallery,
-                atm,
-                bakery,
-                bank,
-                bar,
-                beauty_salon,
-                bicycle_store,
-                book_store,
-                bowling_alley,
-                bus_station,
-                cafe,
-                campground,
-                car_dealer,
-                car_rental,
-                car_repair,
-                car_wash,
-                casino,
-                cemetery,
-                church,
-                city_hall,
-                clothing_store,
-                convenience_store,
-                courthouse,
-                dentist,
-                department_store,
-                doctor,
-                electrician,
-                electronics_store,
-                embassy,
-                fire_station,
-                florist,
-                funeral_home,
-                furniture_store,
-                gas_station,
-                gym,
-                hair_care,
-                hardware_store,
-                hindu_temple,
-                home_goods_store,
-                hospital,
-                insurance_agency,
-                jewelry_store,
-                laundry,
-                lawyer,
-                library,
-                liquor_store,
-                local_government_office,
-                locksmith,
-                lodging,
-                meal_delivery,
-                meal_takeaway,
-                mosque,
-                movie_rental,
-                movie_theater,
-                moving_company,
-                museum,
-                night_club,
-                painter,
-                park,
-                parking,
-                pet_store,
-                pharmacy,
-                physiotherapist,
-                plumber,
-                police,
-                post_office,
-                real_estate_agency,
-                restaurant,
-                roofing_contractor,
-                rv_park,
-                school,
-                shoe_store,
-                shopping_mall,
-                spa,
-                stadium,
-                storage,
-                store,
-                subway_station,
-                synagogue,
-                taxi_stand,
-                train_station,
-                transit_station,
-                travel_agency,
-                university,
-                veterinary_care,
-                zoo);*/
+                    map.fitBounds(bounds);
+                });
+            }
+        script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBF9y6_whjHe2QDpkZXDxz29_zV3F7MBX0&libraries=places&callback=initAutocomplete', async='', defer='')

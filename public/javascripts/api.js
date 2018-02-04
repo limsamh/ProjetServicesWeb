@@ -94,7 +94,7 @@ function createMarker(place) {
             infowindow.setContent([
                 details.name,
                 details.formatted_address,
-                details.website,
+                ("<a href='")+details.website+("'>") + details.website+("</a>"),
                 details.rating,
                 details.formatted_phone_number].join("<br />"));
             infowindow.open(map, marker);
