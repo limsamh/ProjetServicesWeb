@@ -20,7 +20,8 @@ html(lang='en')
         script(type='text/javascript', src='https://maps.googleapis.com/maps/api/js')
         script.
             var map;
-            var geoJSON;var request;
+            var geoJSON;
+            var request;
             var gettingData = false;
             var openWeatherMapKey = "f6f0e3ae36a5a2e736d4d4ec323c527c"
             function initialize() {
@@ -30,16 +31,6 @@ html(lang='en')
                 };
                 map = new google.maps.Map(document.getElementById('map-canvas'),
                     mapOptions);
-
-                var request = {
-                    location: new google.maps.LatLng(50,-50),
-                    radius: 10000,
-                    type: ['bar']
-                }
-                infowindow = new google.maps.InfoWindow();
-                service = new google.maps.places.PlacesService(map);
-                service.nearbySearch(request, callback);
-
                 // Add interaction listeners to make weather requests
                 google.maps.event.addListener(map, 'idle', checkIfDataRequested);
                 // Sets up and populates the info window with details
@@ -157,43 +148,6 @@ html(lang='en')
                     map.data.remove(feature);
                 });
             };
-
-            function callback(results, status) {
-                if (status === google.maps.places.PlacesServiceStatus.OK) {
-                    results.forEach(createMarker);
-                }
-            }
-
-            function createMarker(place) {
-                var placeLoc = place.geometry.location;
-                var marker = new google.maps.Marker({
-                    map: map,
-                    icon: {
-                        url: 'http://maps.gstatic.com/mapfiles/circle.png',
-                        anchor: new google.maps.Point(10, 10),
-                        scaledSize: new google.maps.Size(15, 25)
-                    },
-                    position: place.geometry.location
-                });
-                marker.addListener('click', function () {
-
-                    var request = {
-                        reference: place.reference
-                    };
-                    service.getDetails(request, function (details, status) {
-
-                        infowindow.setContent([
-                            details.name,
-                            details.formatted_address,
-                            ("<a href='") + details.website + ("'>") + details.website + ("</a>"),
-                            details.rating,
-                            details.formatted_phone_number].join("<br />"));
-                        infowindow.open(map, marker);
-                    });
-
-                })
-            }
-
             google.maps.event.addDomListener(window, 'load', initialize);
     body
         #map-canvas
