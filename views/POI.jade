@@ -79,13 +79,13 @@ script.
             // For each place, get the icon, name and location.
             var bounds = new google.maps.LatLngBounds();
 
+            /** associe chaque poi à sa meteo **/
             places.forEach(function (place) {
+
                 if (!place.geometry) {
                     console.log("Returned place contains no geometry");
                     return;
                 }
-
-                //console.log(JSON.stringify(place));
 
                 var lat = place.geometry.location.lat();
                 var lng = place.geometry.location.lng();
@@ -101,6 +101,16 @@ script.
                 var test = request.responseText.substring(0, request.responseText.length - 1) + "," + JSON.stringify(place).substring(1, JSON.stringify(place).length);
 
                 meteoByPOI.push(JSON.parse(test));
+            });
+
+
+            /** créer un marker pour chaque poi **/
+
+            places.forEach(function (place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
 
                 var icon = {
                     url: place.icon,
