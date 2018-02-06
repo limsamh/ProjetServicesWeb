@@ -24,6 +24,12 @@ script.
     var gettingData = false;
     var openWeatherMapKey = "f6f0e3ae36a5a2e736d4d4ec323c527c"
 
+    var places;
+    var markers = [];
+
+    var meteoByPOI = [];
+
+
     function initAutocomplete() {
 
         //infowindow = new google.maps.InfoWindow();
@@ -37,7 +43,7 @@ script.
             mapOptions);
 
         // Add interaction listeners to make weather requests
-        google.maps.event.addListener(map, 'idle', checkIfDataRequested);
+        //google.maps.event.addListener(map, 'idle', checkIfDataRequested);
 
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
@@ -49,25 +55,23 @@ script.
             searchBox.setBounds(map.getBounds());
         });
 
-        var markers = [];
-
-        console.log(markers + 'first');
+        //console.log(markers + 'first');
+        //alert(JSON.stringify(markers))
 
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function () {
-            var places = searchBox.getPlaces();
+            places = searchBox.getPlaces();
             var marker;
 
             alert(JSON.stringify(places))
-            console.log(places)
+            //console.log(places)
 
             if (places.length == 0) {
                 return;
             }
             // Clear out the old markers.
             markers.forEach(function (marker) {
-                console.log(marker + 'reinitialisation')
                 marker.setMap(null);
             });
             markers = [];
@@ -80,6 +84,23 @@ script.
                     console.log("Returned place contains no geometry");
                     return;
                 }
+
+                //console.log(JSON.stringify(place));
+
+                var lat = place.geometry.location.lat();
+                var lng = place.geometry.location.lng();
+
+                //request.abort();
+                var requestString = "http://api.openweathermap.org/data/2.5/forecast?units=metric&lang=en&cnt=16&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c&lat="+lat+"&lon="+lng;
+
+                const request = new XMLHttpRequest();
+                //request.onload = proccessResults;
+                request.open("GET", requestString, false);
+                request.send(null);
+
+                var test = request.responseText.substring(0, request.responseText.length - 1) + "," + JSON.stringify(place).substring(1, JSON.stringify(place).length);
+
+                meteoByPOI.push(JSON.parse(test));
 
                 var icon = {
                     url: place.icon,
@@ -105,7 +126,7 @@ script.
                     var tel = place.formatted_phone_number;
                     var note = place.rating;
 
-                    alert(JSON.stringify(place))
+                    //alert(JSON.stringify(place))
                     infowindow.setContent([
                         nom,
                         adresse,
@@ -131,12 +152,13 @@ script.
                     bounds.extend(place.geometry.location);
                 }
             });
+
+            console.log(JSON.stringify(meteoByPOI))
             map.fitBounds(bounds);
         });
 
         // Add interaction listeners to make weather requests
         google.maps.event.addListener(map, 'idle', checkIfDataRequested);
-
 
         // Sets up and populates the info window with details
         map.data.addListener('click', function (event) {
@@ -160,8 +182,14 @@ script.
         });
     }
 
+
+
+    /*** first version with affichage meteo image
+     *   It's current meteo ***/
+
     var checkIfDataRequested = function () {
         // Stop extra requests being sent
+
         while (gettingData === true) {
             request.abort();
             gettingData = false;
@@ -178,13 +206,17 @@ script.
     // Make the weather request
     var getWeather = function (northLat, eastLng, southLat, westLng) {
         gettingData = true;
+
+
         var requestString = "http://api.openweathermap.org/data/2.5/box/city?bbox="
             + westLng + "," + northLat + "," //left top
             + eastLng + "," + southLat + "," //right bottom
             + map.getZoom()
             + "&cluster=yes&format=json"
             + "&APPID=" + openWeatherMapKey;
-            //http://api.openweathermap.org/data/2.5/forecast?id=3032213&units=metric&lang=en&cnt=7&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c
+
+        //"http://api.openweathermap.org/data/2.5/forecast?units=metric&lang=en&cnt=16&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c&q=blois";
+        //http://api.openweathermap.org/data/2.5/forecast?id=3032213&units=metric&lang=en&cnt=7&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c
 
         request = new XMLHttpRequest();
         request.onload = proccessResults;
@@ -193,7 +225,7 @@ script.
     };
     // Take the JSON results and proccess them
     var proccessResults = function () {
-        console.log(this);
+        //console.log(this);
         var results = JSON.parse(this.responseText);
         if (results.list.length > 0) {
             resetData();
