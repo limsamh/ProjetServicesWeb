@@ -43,6 +43,7 @@ script.
     var gettingData = false;
     var openWeatherMapKey = "f6f0e3ae36a5a2e736d4d4ec323c527c"
     var test;
+    var tabM = [];
     var places;
     var markers = [];
 
@@ -128,13 +129,23 @@ script.
                 meteoByPOI.push(JSON.parse(test));
             });
 
+            //var test1 = JSON.parse(meteoByPOI);
 
             /** créer un marker pour chaque poi **/
 
-            places.forEach(function (place) {
-                var listweather = JSON.parse(test);
+            //places.forEach(function (place) {
+            for(var i = 0; i < 20; i++)
+            {
+                var listweather = meteoByPOI[i];
+                //var listweather = JSON.parse(test);
+                //var listweather = test1[i];
+
+                console.log(typeof listweather)
+
                 var weather;
                 var listPoi;
+
+                console.log(Object.keys(listweather)[i])
 
                 for (var pas = 0; pas < 16; pas++){
                     if(new String(listweather.list[pas].dt_txt).valueOf() == new String(dateHeure).valueOf())
@@ -149,42 +160,38 @@ script.
                         || listPoi.includes('campground') || listPoi.includes('cemetery')|| listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo')))
                 {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
                 else if (weather === 'Snow' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
                 else if (weather === 'Smoke' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
                 else if (weather === 'Thunderstorm' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
                 else if (weather === 'Drizzle' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
                 else if (weather === 'Haze' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
                         || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert('Ce POI est bloqué pour cause de  : ' + weather)
+                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
                 }
-                else
-                    creationmarker(place, bounds);
-                //var weather = JSON. stringify(meteoByPOI);
-
-                //weather = weather.parse();
-
-                //alert(JSON.parse(meteoByPOI))
-
-            });
+                else {
+                    alert(listweather.name + 'OKKKKKK')
+                    creationmarker(places[i], bounds);
+                }
+            };
 
 
             map.fitBounds(bounds);

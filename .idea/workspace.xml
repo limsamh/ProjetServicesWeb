@@ -17,11 +17,41 @@
       <file leaf-file-name="POI.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/POI.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="157" column="17" lean-forward="true" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
+            <state relative-caret-position="586">
+              <caret line="190" column="54" lean-forward="false" selection-start-line="190" selection-start-column="54" selection-end-line="190" selection-end-column="54" />
               <folding>
-                <marker date="1518458730502" expanded="true" signature="8042:8047" ph="°" />
+                <marker date="1518464182761" expanded="true" signature="8372:8377" ph="°" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mesrules.nools" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/mesrules.nools">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Test_perso.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/Test_perso.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="helloWorld-strings.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/helloWorld-strings.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -42,7 +72,6 @@
       <find>initMap</find>
       <find>getLocation</find>
       <find>getDetails</find>
-      <find>place</find>
       <find>sidenav</find>
       <find>style</find>
       <find>service</find>
@@ -57,6 +86,7 @@
       <find>getBou</find>
       <find>marker</find>
       <find>console</find>
+      <find>place</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -91,6 +121,8 @@
         <option value="$PROJECT_DIR$/public/javascripts/under_menu_display.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/views/test.jade" />
+        <option value="$PROJECT_DIR$/node_modules/nools/examples/Test_perso.js" />
+        <option value="$PROJECT_DIR$/node_modules/nools/examples/mesrules.nools" />
         <option value="$PROJECT_DIR$/views/POI.jade" />
       </list>
     </option>
@@ -145,6 +177,17 @@
             <path>
               <item name="ProjetServicesWeb" type="b2602c69:ProjectViewProjectNode" />
               <item name="ProjetServicesWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjetServicesWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjetServicesWeb" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="nools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProjetServicesWeb" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProjetServicesWeb" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -194,7 +237,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.Test_perso.js">
+    <configuration name="Test_perso.js" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-js-file="Test_perso.js" working-dir="$PROJECT_DIR$/node_modules/nools/examples" />
     <configuration name="www" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-js-file="www" working-dir="$PROJECT_DIR$/bin" />
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
@@ -277,9 +321,14 @@
       <option name="PROGRAM_PARAMETERS" />
       <predefined_log_file id="idea.log" enabled="true" />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Node.js.www" />
+      <item index="1" class="java.lang.String" itemvalue="Node.js.Test_perso.js" />
+    </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Node.js.www" />
+      <list size="2">
+        <item index="0" class="java.lang.String" itemvalue="Node.js.Test_perso.js" />
+        <item index="1" class="java.lang.String" itemvalue="Node.js.www" />
       </list>
     </recent_temporary>
   </component>
@@ -304,12 +353,12 @@
       <workItem from="1517745764011" duration="6669000" />
       <workItem from="1517753380354" duration="12585000" />
       <workItem from="1517768375576" duration="12770000" />
-      <workItem from="1518447044973" duration="11672000" />
+      <workItem from="1518447044973" duration="16528000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97842000" />
+    <option name="totallyTimeSpent" value="102698000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -396,27 +445,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/data.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="16" lean-forward="true" selection-start-line="12" selection-start-column="16" selection-end-line="12" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="18" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="43" column="0" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/www">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
@@ -692,13 +720,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/Test_perso.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/helloWorld-strings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/nools/examples/mesrules.nools">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="2" lean-forward="true" selection-start-line="27" selection-start-column="2" selection-end-line="27" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/POI.jade">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <state relative-caret-position="348">
           <caret line="157" column="17" lean-forward="true" selection-start-line="157" selection-start-column="17" selection-end-line="157" selection-end-column="17" />
+=======
+        <state relative-caret-position="586">
+          <caret line="190" column="54" lean-forward="false" selection-start-line="190" selection-start-column="54" selection-end-line="190" selection-end-column="54" />
+>>>>>>> Stashed changes
           <folding>
-            <marker date="1518458730502" expanded="true" signature="8042:8047" ph="°" />
+            <marker date="1518464182761" expanded="true" signature="8372:8377" ph="°" />
           </folding>
 =======
         <state relative-caret-position="-4133">
