@@ -90,7 +90,7 @@ script.
             dateHeure = document.getElementById('date').value + ' ' + document.getElementById('heure').value;
             var marker;
 
-            alert(JSON.stringify(places))
+            //alert(JSON.stringify(places))
             //console.log(places)
 
             if (places.length == 0) {
@@ -129,8 +129,6 @@ script.
                 meteoByPOI.push(JSON.parse(test));
             });
 
-            //var test1 = JSON.parse(meteoByPOI);
-
             /** créer un marker pour chaque poi **/
 
             //places.forEach(function (place) {
@@ -140,12 +138,8 @@ script.
                 //var listweather = JSON.parse(test);
                 //var listweather = test1[i];
 
-                console.log(typeof listweather)
-
                 var weather;
                 var listPoi;
-
-                console.log(Object.keys(listweather)[i])
 
                 for (var pas = 0; pas < 16; pas++){
                     if(new String(listweather.list[pas].dt_txt).valueOf() == new String(dateHeure).valueOf())
@@ -153,8 +147,6 @@ script.
                 }
 
                 listPoi = JSON.stringify(listweather.types);
-
-                console.log(listPoi);
 
                 if(weather === 'Rain' && (listPoi.includes('park') || listPoi.includes('amusement_park')
                         || listPoi.includes('campground') || listPoi.includes('cemetery')|| listPoi.includes('rv_park')
@@ -192,7 +184,6 @@ script.
                     creationmarker(places[i], bounds);
                 }
             };
-
 
             map.fitBounds(bounds);
         });
@@ -278,10 +269,6 @@ script.
             bounds.extend(place.geometry.location);
         }
     }
-
-
-
-
 
     /*** first version with affichage meteo image
      *   It's current meteo ***/
