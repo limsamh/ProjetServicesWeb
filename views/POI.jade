@@ -3,6 +3,7 @@ block content
         meta(name='viewport', content='initial-scale=1.0, user-scalable=no')
         meta(charset='utf-8')
         script(type='text/javascript', src='/javascripts/under_menu_display.js')
+
         link(rel='stylesheet', href='/stylesheets/style.css')
         title Places Searchbox
 
@@ -13,7 +14,7 @@ block content
 
 
 input#pac-input.controls(type='text', placeholder='Search Box')
-input#date.controls(type='date', max='2018-02-15', min='2018-02-13', name='the_date')
+input#date.controls(type='date', max='2018-17-42', min='2018-02-13', name='the_date')
 form
     select#heure.controls(name='nom', size='1')
         option
@@ -41,20 +42,28 @@ script.
     var geoJSON;
     var request;
     var gettingData = false;
+
+    /** api key **/
     var openWeatherMapKey = "f6f0e3ae36a5a2e736d4d4ec323c527c"
     var test;
-    var tabM = [];
     var places;
+
+    /** list des marqueurs qui seront affichés pour chaque poi **/
     var markers = [];
 
+    /** list de la meteo pour chaque poi **/
     var meteoByPOI = [];
 
     var dateHeure;
 
+    /** dependence python et nools **/
+    var PythonShell = require('python-shell');
+    var nools = require("nools");
+
+
     function initAutocomplete() {
 
-        //infowindow = new google.maps.InfoWindow();
-
+        /** definis google map au first lancement **/
         var mapOptions = {
             zoom: 13,
             center: {lat: 47.56453, lng: 1.33456},
@@ -63,46 +72,34 @@ script.
         map = new google.maps.Map(document.getElementById('map'),
             mapOptions);
 
-        // Add interaction listeners to make weather requests
-        //google.maps.event.addListener(map, 'idle', checkIfDataRequested);
-
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
 
         var searchBox = new google.maps.places.SearchBox(input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-
-
-
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function () {
             searchBox.setBounds(map.getBounds());
         });
-
-        //console.log(markers + 'first');
-        //alert(JSON.stringify(markers))
 
         // Listen for the event fired when the user selects a prediction and retrieve
         // more details for that place.
         searchBox.addListener('places_changed', function () {
             places = searchBox.getPlaces();
             dateHeure = document.getElementById('date').value + ' ' + document.getElementById('heure').value;
-            var marker;
-
-            //alert(JSON.stringify(places))
-            //console.log(places)
 
             if (places.length == 0) {
                 return;
             }
-            // Clear out the old markers.
+
+            /** elimine tous les marqueurs **/
             markers.forEach(function (marker) {
                 marker.setMap(null);
             });
             markers = [];
 
-            // For each place, get the icon, name and location.
+            /** pour chaque poi, recupère icone, location **/
             var bounds = new google.maps.LatLngBounds();
 
             /** associe chaque poi à sa meteo **/
@@ -115,74 +112,87 @@ script.
                 var lat = place.geometry.location.lat();
                 var lng = place.geometry.location.lng();
 
-                //request.abort();
+                /** récupération de la meteo pour chaque POI **/
                 var requestString = "http://api.openweathermap.org/data/2.5/forecast?units=metric&lang=en&cnt=16&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c&lat="+lat+"&lon="+lng;
 
-
                 const request = new XMLHttpRequest();
-                //request.onload = proccessResults;
                 request.open("GET", requestString, false);
                 request.send(null);
 
+                /** association la meteo avec son POI **/
                 test = request.responseText.substring(0, request.responseText.length - 1) + "," + JSON.stringify(place).substring(1, JSON.stringify(place).length);
 
                 meteoByPOI.push(JSON.parse(test));
             });
 
             /** créer un marker pour chaque poi **/
-
-            //places.forEach(function (place) {
             for(var i = 0; i < 20; i++)
             {
                 var listweather = meteoByPOI[i];
-                //var listweather = JSON.parse(test);
-                //var listweather = test1[i];
-
                 var weather;
-                var listPoi;
 
                 for (var pas = 0; pas < 16; pas++){
                     if(new String(listweather.list[pas].dt_txt).valueOf() == new String(dateHeure).valueOf())
                         weather = listweather.list[pas].weather[0].main;
                 }
 
-                listPoi = JSON.stringify(listweather.types);
+                /** Option - Tableau qui récupère les critères
+                 * critère weather
+                 * critère de date
+                 * critère d'heure
+                 * **/
+                var options = {
+                    args: [weather, dateHeure.split(" ")[0], dateHeure.split(" ")[1]]
+                };
 
-                if(weather === 'Rain' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery')|| listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo')))
-                {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else if (weather === 'Snow' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else if (weather === 'Smoke' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else if (weather === 'Thunderstorm' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else if (weather === 'Drizzle' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else if (weather === 'Haze' && (listPoi.includes('park') || listPoi.includes('amusement_park')
-                        || listPoi.includes('campground') || listPoi.includes('cemetery') || listPoi.includes('rv_park')
-                        || listPoi.includes('stadium') || listPoi.includes('zoo'))) {
-                    alert(listweather.name + ' est bloqué pour cause de  : ' + weather)
-                }
-                else {
-                    alert(listweather.name + 'OKKKKKK')
-                    creationmarker(places[i], bounds);
-                }
+                /** récupère le script python qui interroge le fichier ruleML**/
+                PythonShell.run('nools/open_xml.py', options, function (err, results) {
+                    if (err) throw err;
+                    //console.log(results);
+                    //res.push(results[0])
+                    //this.vr = results
+
+                    /** parcours du fichier ruleML pour la transformation en nools **/
+                    for (var j in results) {
+
+                        /** message d'netrée pour nools **/
+                        var Message = function (message) {
+                            this.text = message;
+                        };
+
+                        var nok = ""
+                        /** alimentation le flow de nools **/
+                        var flow = nools.flow("Ruleml transform", function (flow) {
+
+                            /** récupère l'ensemble des POI contenant le type voulu
+                             *
+                             * **/
+                            flow.rule("Ruleml", [Message, "out", "out.text =~ /^" + results[j] + "/"], function (facts) {
+                                //console.log(facts.out.text);
+                                nok = "nok";
+                            });
+
+                        });
+
+                        /** faire le test des règles dans nools **/
+                        var session = flow.getSession();
+                        var main_type = listweather.types[0];
+                        var name_poi = listweather.name;
+                        /** test si le POI respect la règle ou pas
+                         *  transformer la variable d'entrée afin de respecter les règles nools
+                         *  ex : roserai de Blois, type : park => "park roserai de blois"
+                         * **/
+                        session.assert(new Message(main_type+" "+name_poi));
+
+                        /** si le POI match avec les règles, on ne l'affiche pas **/
+                        if(session.match() === 'nok'){}
+                        else{
+                            creationmarker(places[i], bounds);
+                            alert(listweather.name + 'OKKKKKK')
+                        }
+
+                    }
+                });
             };
 
             map.fitBounds(bounds);
@@ -213,6 +223,7 @@ script.
         });
     }
 
+    /** creation du marqueurs **/
     var creationmarker = function (place, bounds) {
         if (!place.geometry) {
             console.log("Returned place contains no geometry");
@@ -227,7 +238,7 @@ script.
             scaledSize: new google.maps.Size(25, 25)
         };
 
-        // Create a marker for each place.
+        /** créer un marqueur pour chaque place **/
         marker = new google.maps.Marker({
             map: map,
             icon: icon,
@@ -237,13 +248,13 @@ script.
             id: place.id
         });
 
+        /** ajoute ce marqueur à notre conteneur de marqueurs **/
         marker.addListener('click', function () {
             var nom = place.name;
             var adresse = place.formatted_address;
             var tel = place.formatted_phone_number;
             var note = place.rating;
 
-            //alert(JSON.stringify(place))
             infowindow.setContent([
                 nom,
                 adresse,
@@ -260,6 +271,7 @@ script.
             infowindow.open(map, this);
         })
 
+        /** Ajoute le marqueur à la liste des marqueurs **/
         markers.push(marker);
 
         if (place.geometry.viewport) {
@@ -272,7 +284,6 @@ script.
 
     /*** first version with affichage meteo image
      *   It's current meteo ***/
-
     var checkIfDataRequested = function () {
         // Stop extra requests being sent
 
@@ -293,7 +304,6 @@ script.
     var getWeather = function (northLat, eastLng, southLat, westLng) {
         gettingData = true;
 
-
         var requestString = "http://api.openweathermap.org/data/2.5/box/city?bbox="
             + westLng + "," + northLat + "," //left top
             + eastLng + "," + southLat + "," //right bottom
@@ -301,14 +311,12 @@ script.
             + "&cluster=yes&format=json"
             + "&APPID=" + openWeatherMapKey;
 
-        //"http://api.openweathermap.org/data/2.5/forecast?units=metric&lang=en&cnt=16&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c&q=blois";
-        //http://api.openweathermap.org/data/2.5/forecast?id=3032213&units=metric&lang=en&cnt=7&APPID=f6f0e3ae36a5a2e736d4d4ec323c527c
-
         request = new XMLHttpRequest();
         request.onload = proccessResults;
         request.open("get", requestString, true);
         request.send();
     };
+
     // Take the JSON results and proccess them
     var proccessResults = function () {
         //console.log(this);
@@ -321,7 +329,9 @@ script.
             drawIcons(geoJSON);
         }
     };
+
     var infowindow = new google.maps.InfoWindow();
+
     // For each result that comes back, convert the data to geoJSON
     var jsonToGeoJson = function (weatherItem) {
         var feature = {
@@ -358,12 +368,14 @@ script.
         // returns object
         return feature;
     };
+
     // Add the markers to the map
     var drawIcons = function (weather) {
         map.data.addGeoJson(geoJSON);
         // Set the flag to finished
         gettingData = false;
     };
+
     // Clear data layer and geoJSON
     var resetData = function () {
         geoJSON = {
@@ -374,4 +386,5 @@ script.
             map.data.remove(feature);
         });
     };
+
     google.maps.event.addDomListener(window, 'load', initAutocomplete());
