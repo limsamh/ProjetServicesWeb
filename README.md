@@ -2,7 +2,7 @@
 
 ## Technologies utilisées
 JavaScript - interrogation des deux api et création de marqueurs sur une carte google
-Python - interrogation du fichier ruleMl Xml
+Python - interrogation du fichier ruleML
 
 Application de mashup permettant de filtrer les PoIs selon les conditions météorologiques.
 
