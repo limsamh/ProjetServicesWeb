@@ -59,7 +59,7 @@ Ajout de paquets nools : npm install nools
 Après installation mettez vous dans le répertoire /bin du repo  et lancer : 
 
 ```
-node www
+npm start
 ```
 
 Ensuite allez à l'adresse localhost:3000\poi en local

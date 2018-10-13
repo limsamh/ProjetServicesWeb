@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var vd = require('../data.json');
+"use strict";
+const express = require('express');
+let router = express.Router();
+let vd = require('../data.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

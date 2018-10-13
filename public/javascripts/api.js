@@ -1,4 +1,4 @@
-ar map;
+var map;
 var infowindow;
 var service;
 var type_poi;
