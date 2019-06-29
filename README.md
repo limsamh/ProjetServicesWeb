@@ -16,21 +16,15 @@ Enfin, les PoIs filtrés seront affichés sur une map.
 
 
 ### Comparaison de diverses Api
------------------------------------------------------------------------------------------------
-Nom api               |    Thèmes      |    Limits         |   Lien                           |
------------------------------------------------------------------------------------------------
-OpenWeatherMap        |    Météo       |   60 req/min      | https://openweathermap.org/api   |
------------------------------------------------------------------------------------------------
-Wunderground          |    Météo       |   10 req/min      | https://www.wunderground.com/    |
------------------------------------------------------------------------------------------------
-Foursquare API        |    POI         |    5000 req/h     | https://developer.foursquare.com |
------------------------------------------------------------------------------------------------
-Google Place API      |    POI         | 150000 req/jour   | https://developers.google.com/   |
------------------------------------------------------------------------------------------------
-Yelp                  |    POI         |   25000 req/h     | https://www.yelp.fr/san-jose     |
------------------------------------------------------------------------------------------------
-Google Maps Embed API | Affichage MAP  |    aucune         | https://developers.google.com/   |
------------------------------------------------------------------------------------------------
+
+|Nom api               |    Thèmes      |    Limits         |   Lien                           |
+|----------------------|----------------|-------------------|----------------------------------|
+|OpenWeatherMap        |    Météo       |   60 req/min      | https://openweathermap.org/api   |
+|Wunderground          |    Météo       |   10 req/min      | https://www.wunderground.com/    |
+|Foursquare API        |    POI         |    5000 req/h     | https://developer.foursquare.com |
+|Google Place API      |    POI         | 150000 req/jour   | https://developers.google.com/   |
+|Yelp                  |    POI         |   25000 req/h     | https://www.yelp.fr/san-jose     |
+|Google Maps Embed API | Affichage MAP  |    aucune         | https://developers.google.com/   |
 
 Les API retenues pour ce projet, sont :
 OpenWeatherMap pour la richesse de ses informations
@@ -56,7 +50,7 @@ Ajout de paquets nools : npm install nools
 
 ## Déploiement
 
-Après installation mettez vous dans le répertoire /bin du repo  et lancer : 
+Après installation mettez vous dans le répertoire  de votre projet et lancer : 
 
 ```
 npm start
